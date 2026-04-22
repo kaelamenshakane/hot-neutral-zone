@@ -1,3 +1,14 @@
-# Godot 4+ specific ignores
+# Godot generated cache
 .godot/
-/android/
+
+# Godot generated translations
+*.translation
+
+# OS/editor noise
+.DS_Store
+Thumbs.db
+*.swp
+*.tmp
+
+# Local runtime logs
+logs/
