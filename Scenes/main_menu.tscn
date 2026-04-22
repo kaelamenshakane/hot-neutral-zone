@@ -1,0 +1,61 @@
+[gd_scene format=3 uid="uid://c528vlcrp3wi8"]
+
+[ext_resource type="Script" uid="uid://cueyiusldijq0" path="res://MainMenu.cs" id="1_48xlc"]
+[ext_resource type="Texture2D" uid="uid://bfisgnklfoab1" path="res://dc8055de-45b7-468a-ba5a-725c66612d12.png" id="2_48xlc"]
+
+[node name="MainMenu" type="Control" unique_id=1968431696]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_48xlc")
+
+[node name="ColorRect" type="ColorRect" parent="." unique_id=2066336613]
+layout_mode = 0
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="BackgoundImage" type="TextureRect" parent="." unique_id=2102300616]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+scale = Vector2(7.306102, 1.9014168)
+mouse_filter = 2
+
+[node name="DecorImage" type="TextureRect" parent="." unique_id=1926223461]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("2_48xlc")
+
+[node name="CenterContainer" type="CenterContainer" parent="." unique_id=606579510]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="CenterContainer" unique_id=1912965913]
+custom_minimum_size = Vector2(199, 200)
+layout_mode = 2
+
+[node name="Label" type="Label" parent="CenterContainer/VBoxContainer" unique_id=256453579]
+layout_mode = 2
+
+[node name="NewGame" type="Button" parent="CenterContainer/VBoxContainer" unique_id=1876659958]
+layout_mode = 2
+
+[node name="ContinueGame" type="Button" parent="CenterContainer/VBoxContainer" unique_id=875018086]
+layout_mode = 2
+
+[node name="Exit" type="Button" parent="CenterContainer/VBoxContainer" unique_id=200409014]
+layout_mode = 2

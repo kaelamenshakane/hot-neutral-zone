@@ -1,0 +1,28 @@
+[gd_scene format=3 uid="uid://2d4yo18sgw0j"]
+
+[ext_resource type="Script" uid="uid://5mcwncbn1jaa" path="res://Scripts/EnemyAI.cs" id="1_hghv2"]
+
+[node name="Enemy" type="CharacterBody2D" unique_id=1978998121]
+script = ExtResource("1_hghv2")
+
+[node name="Sprite2D" type="Sprite2D" parent="." unique_id=562455331]
+
+[node name="VisionArea" type="Area2D" parent="." unique_id=27074403]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="VisionArea" unique_id=1731443811]
+
+[node name="Hurtbox" type="Area2D" parent="." unique_id=681372479]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Hurtbox" unique_id=499539474]
+
+[node name="AttackArea" type="Area2D" parent="." unique_id=971034243]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="AttackArea" unique_id=406535919]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=1557135933]
+
+[node name="PatrolPoints" type="Node2D" parent="." unique_id=1179825851]
+
+[node name="P1" type="Node2D" parent="PatrolPoints" unique_id=717328513]
+
+[node name="P2" type="Node2D" parent="PatrolPoints" unique_id=931608032]
