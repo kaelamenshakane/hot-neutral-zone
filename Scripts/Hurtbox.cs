@@ -14,9 +14,7 @@ public partial class Hurtbox : Area2D
 
         if (IsPlayer)
         {
-            var gm = GetNodeOrNull<GameManager>("/root/GameManager");
-            if (gm != null) gm.RestartCurrentScene();
-            else GetTree().ReloadCurrentScene();
+            EmitSignal(SignalName.Killed, GetParent());
         }
         else
         {

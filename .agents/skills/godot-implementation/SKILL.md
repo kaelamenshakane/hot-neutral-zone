@@ -16,11 +16,12 @@ Project-specific guardrails:
 - Current main scene is `res://Scenes/main_menu.tscn`.
 - Current playable levels are `res://Scenes/level_1.tscn`, `res://Scenes/level_2.tscn`, and `res://Scenes/level_3.tscn`.
 - Each current level has one player and one enemy.
-- `level_1.tscn` has bat and pistol pickups.
+- Each current level has bat and pistol pickups.
 - `GameManager` owns level loading, level unlock progress, save reset, and current-scene reload.
 - Persistent unlock progress is stored in `user://save.json`.
 - Current weapon layer is minimal: `WeaponKind`, nearby pickup/drop, bat melee hitbox scaling, pistol projectile.
-- Finish enemy, look-ahead, lock-on, and pause/menu input actions exist but gameplay behavior is not implemented.
+- Current level HUD handles weapon status, player death panel, R restart after death, ESC pause, and return to main menu.
+- Finish enemy, look-ahead, and lock-on input actions exist but gameplay behavior is not implemented.
 - Legacy `player.cs` may be old or unused and emits CS8981 warnings.
 - Do not expand any of these unless the task explicitly asks.
 

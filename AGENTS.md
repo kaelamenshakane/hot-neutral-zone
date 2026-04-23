@@ -45,12 +45,18 @@ Do not invent architecture before it exists.
   - pistol projectile attack
   - hurtbox
   - restart
-- `level_1.tscn` currently contains bat and pistol pickups.
+- Current levels have a `LevelHud` scene with:
+  - weapon status in the top-left corner
+  - death panel on player death
+  - R-to-restart after death
+  - ESC pause menu
+  - pause menu return to main menu
+- Each current level currently contains bat and pistol pickups.
 - Enemy scene exists with patrol/search/chase/attack behavior and basic collision/hurtbox/attack shapes.
 - Enemy visual currently reuses the player sprite with a red outline.
 - Hitbox/Hurtbox model is minimal:
   - enemy dies via `QueueFree`
-  - player hit reloads scene
+  - player hit emits death and the level HUD handles restart
 - Level victory currently means killing the single enemy in the level.
 - `GameManager` owns level loading, level unlock progress, save reset, and current-scene reload.
 
@@ -63,7 +69,6 @@ Do not fill these gaps with architecture unless explicitly requested:
 - downed enemy / finish enemy behavior
 - look-ahead camera behavior
 - lock-on targeting behavior
-- pause/menu behavior
 - progression
 - save/load beyond level unlock progress
 - meta-game

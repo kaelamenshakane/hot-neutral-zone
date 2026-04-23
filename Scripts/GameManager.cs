@@ -105,6 +105,11 @@ public partial class GameManager : Node
         _sceneChangeQueued = false;
     }
 
+    public void ReturnToMainMenu()
+    {
+        ChangeSceneDeferred("res://Scenes/main_menu.tscn");
+    }
+
     public void ResetSave()
     {
         _currentLevelNumber = 0;

@@ -2,6 +2,8 @@ using Godot;
 
 public partial class PlayerController : CharacterBody2D
 {
+    [Signal] public delegate void WeaponChangedEventHandler(int weaponKind);
+
     [Export] public float MoveSpeed = 500f;
 
     private Node2D _aimPivot;
@@ -13,6 +15,8 @@ public partial class PlayerController : CharacterBody2D
     private GameManager _gameManager;
     private WeaponKind _currentWeapon = WeaponKind.None;
     private WeaponPickup _nearbyWeapon;
+
+    public WeaponKind CurrentWeapon => _currentWeapon;
 
     public override void _Ready()
     {
@@ -106,6 +110,7 @@ public partial class PlayerController : CharacterBody2D
         _nearbyWeapon.QueueFree();
         _nearbyWeapon = null;
         UpdateHeldWeaponVisual();
+        EmitWeaponChanged();
     }
 
     private void DropWeapon()
@@ -125,6 +130,7 @@ public partial class PlayerController : CharacterBody2D
 
         _currentWeapon = WeaponKind.None;
         UpdateHeldWeaponVisual();
+        EmitWeaponChanged();
     }
 
     private void OnPickupAreaEntered(Area2D area)
@@ -162,5 +168,10 @@ public partial class PlayerController : CharacterBody2D
                 new(10, -5), new(58, -5), new(66, 0), new(58, 5), new(10, 5)
             };
         }
+    }
+
+    private void EmitWeaponChanged()
+    {
+        EmitSignal(SignalName.WeaponChanged, (int)_currentWeapon);
     }
 }

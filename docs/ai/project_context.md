@@ -34,12 +34,13 @@ It should change rarely.
 - There are currently 3 level scenes: `res://Scenes/level_1.tscn`, `res://Scenes/level_2.tscn`, and `res://Scenes/level_3.tscn`.
 - Each level scene currently contains one player and one enemy.
 - Player currently has movement, mouse-facing aim pivot, melee hitbox, hurtbox, restart, weapon pickup/drop, bat melee attack, and pistol projectile attack.
-- `res://Scenes/level_1.tscn` currently contains bat and pistol pickups.
+- Current level scenes include `LevelHud` with weapon status, death panel, R-to-restart after death, ESC pause, and pause-menu return to main menu.
+- Each current level currently contains bat and pistol pickups.
 - Enemy scene exists with patrol/search/chase/attack behavior and basic collision/hurtbox/attack shapes.
 - Enemy visual currently reuses the player sprite with a red outline.
 - Hitbox/Hurtbox model is minimal:
   - enemy dies via `QueueFree`
-  - player hit reloads scene
+  - player hit emits death and the level HUD handles restart
 - Level victory currently means killing the single enemy in the level.
 - `GameManager` owns level loading, level unlock progress, save reset, and current-scene reload.
 
@@ -52,7 +53,6 @@ Do not invent architecture for these unless explicitly asked:
 - downed enemy / finish enemy behavior
 - look-ahead camera behavior
 - lock-on targeting behavior
-- pause/menu behavior
 - progression
 - save/load beyond level unlock progress
 - meta-game

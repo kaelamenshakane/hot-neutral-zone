@@ -48,11 +48,13 @@ Assert-Pattern -Path $menuScene -Pattern 'mouse_filter = 2' -Reason 'Background 
 $level1Scene = Join-Path $root 'Scenes/level_1.tscn'
 $level2Scene = Join-Path $root 'Scenes/level_2.tscn'
 $level3Scene = Join-Path $root 'Scenes/level_3.tscn'
+$levelHudScene = Join-Path $root 'Scenes/level_hud.tscn'
 $weaponPickupScene = Join-Path $root 'Scenes/weapon_pickup.tscn'
 $projectileScene = Join-Path $root 'Scenes/projectile.tscn'
 Assert-Path $level1Scene
 Assert-Path $level2Scene
 Assert-Path $level3Scene
+Assert-Path $levelHudScene
 Assert-Path $weaponPickupScene
 Assert-Path $projectileScene
 Assert-Pattern -Path $level1Scene -Pattern 'LevelNumber = 1' -Reason 'Level 1 controller index exists'
@@ -61,10 +63,24 @@ Assert-Pattern -Path $level3Scene -Pattern 'LevelNumber = 3' -Reason 'Level 3 co
 Assert-Pattern -Path $level1Scene -Pattern 'path="res://Scenes/enemy.tscn"' -Reason 'Level 1 has enemy scene'
 Assert-Pattern -Path $level2Scene -Pattern 'path="res://Scenes/enemy.tscn"' -Reason 'Level 2 has enemy scene'
 Assert-Pattern -Path $level3Scene -Pattern 'path="res://Scenes/enemy.tscn"' -Reason 'Level 3 has enemy scene'
+Assert-Pattern -Path $level1Scene -Pattern 'path="res://Scenes/level_hud.tscn"' -Reason 'Level 1 has level HUD scene'
+Assert-Pattern -Path $level2Scene -Pattern 'path="res://Scenes/level_hud.tscn"' -Reason 'Level 2 has level HUD scene'
+Assert-Pattern -Path $level3Scene -Pattern 'path="res://Scenes/level_hud.tscn"' -Reason 'Level 3 has level HUD scene'
 Assert-Pattern -Path $level1Scene -Pattern '[node name="BatPickup" parent="." instance=ExtResource("4_weapon")]' -Reason 'Level 1 has bat pickup'
 Assert-Pattern -Path $level1Scene -Pattern '[node name="PistolPickup" parent="." instance=ExtResource("4_weapon")]' -Reason 'Level 1 has pistol pickup'
+Assert-Pattern -Path $level2Scene -Pattern '[node name="BatPickup" parent="." instance=ExtResource("5_weapon")]' -Reason 'Level 2 has bat pickup'
+Assert-Pattern -Path $level2Scene -Pattern '[node name="PistolPickup" parent="." instance=ExtResource("5_weapon")]' -Reason 'Level 2 has pistol pickup'
+Assert-Pattern -Path $level3Scene -Pattern '[node name="BatPickup" parent="." instance=ExtResource("5_weapon")]' -Reason 'Level 3 has bat pickup'
+Assert-Pattern -Path $level3Scene -Pattern '[node name="PistolPickup" parent="." instance=ExtResource("5_weapon")]' -Reason 'Level 3 has pistol pickup'
 Assert-Pattern -Path $level1Scene -Pattern 'Kind = 1' -Reason 'Bat pickup exports bat kind'
 Assert-Pattern -Path $level1Scene -Pattern 'Kind = 2' -Reason 'Pistol pickup exports pistol kind'
+Assert-Pattern -Path $level2Scene -Pattern 'Kind = 1' -Reason 'Level 2 bat pickup exports bat kind'
+Assert-Pattern -Path $level2Scene -Pattern 'Kind = 2' -Reason 'Level 2 pistol pickup exports pistol kind'
+Assert-Pattern -Path $level3Scene -Pattern 'Kind = 1' -Reason 'Level 3 bat pickup exports bat kind'
+Assert-Pattern -Path $level3Scene -Pattern 'Kind = 2' -Reason 'Level 3 pistol pickup exports pistol kind'
+Assert-Pattern -Path $levelHudScene -Pattern '[node name="DeathPanel" type="PanelContainer" parent="."]' -Reason 'Level HUD has death panel'
+Assert-Pattern -Path $levelHudScene -Pattern '[node name="PausePanel" type="PanelContainer" parent="."]' -Reason 'Level HUD has pause panel'
+Assert-Pattern -Path $levelHudScene -Pattern '[node name="WeaponStatus" type="Label" parent="."]' -Reason 'Level HUD has weapon status'
 
 Write-Host '[3/4] Script wiring checks...'
 $menuScript = Join-Path $root 'MainMenu.cs'
@@ -81,6 +97,8 @@ Assert-Pattern -Path $menuScript -Pattern 'OnQuitPressed' -Reason 'Quit handler 
 $gameManagerScript = Join-Path $root 'Scripts/GameManager.cs'
 $levelControllerScript = Join-Path $root 'Scripts/LevelController.cs'
 $playerScript = Join-Path $root 'Scripts/PlayerController.cs'
+$hurtboxScript = Join-Path $root 'Scripts/Hurtbox.cs'
+$levelHudScript = Join-Path $root 'Scripts/LevelHud.cs'
 $weaponKindScript = Join-Path $root 'Scripts/WeaponKind.cs'
 $weaponPickupScript = Join-Path $root 'Scripts/WeaponPickup.cs'
 $projectileScript = Join-Path $root 'Scripts/Projectile.cs'
@@ -89,6 +107,8 @@ $projectConfig = Join-Path $root 'project.godot'
 Assert-Path $gameManagerScript
 Assert-Path $levelControllerScript
 Assert-Path $playerScript
+Assert-Path $hurtboxScript
+Assert-Path $levelHudScript
 Assert-Path $weaponKindScript
 Assert-Path $weaponPickupScript
 Assert-Path $projectileScript
@@ -106,10 +126,17 @@ Assert-Pattern -Path $gameManagerScript -Pattern 'LoadLevel' -Reason 'GameManage
 Assert-Pattern -Path $gameManagerScript -Pattern 'CompleteLevel' -Reason 'GameManager can complete levels'
 Assert-Pattern -Path $gameManagerScript -Pattern 'ResetSave' -Reason 'GameManager can reset save'
 Assert-Pattern -Path $gameManagerScript -Pattern 'CallDeferred(MethodName.RestartCurrentSceneDeferred)' -Reason 'Restart is deferred out of physics callbacks'
+Assert-Pattern -Path $gameManagerScript -Pattern 'ReturnToMainMenu' -Reason 'GameManager can return to main menu'
 Assert-Pattern -Path $levelControllerScript -Pattern 'CompleteLevel(LevelNumber)' -Reason 'LevelController completes level'
+Assert-Pattern -Path $hurtboxScript -Pattern 'EmitSignal(SignalName.Killed, GetParent())' -Reason 'Player hurtbox emits death instead of immediate reload'
+Assert-Pattern -Path $levelHudScript -Pattern 'Input.IsActionJustPressed("restart")' -Reason 'Level HUD handles death restart'
+Assert-Pattern -Path $levelHudScript -Pattern 'Input.IsActionJustPressed("pause_menu")' -Reason 'Level HUD handles pause menu action'
+Assert-Pattern -Path $levelHudScript -Pattern 'ReturnToMainMenu' -Reason 'Level HUD can return to main menu'
+Assert-Pattern -Path $levelHudScript -Pattern 'UpdateWeaponStatus' -Reason 'Level HUD updates weapon status'
 Assert-Pattern -Path $playerScript -Pattern 'Input.IsActionJustPressed("pickup_throw")' -Reason 'Player handles pickup/throw action'
 Assert-Pattern -Path $playerScript -Pattern 'ShootPistol' -Reason 'Player can shoot pistol'
 Assert-Pattern -Path $playerScript -Pattern 'WeaponKind.Bat' -Reason 'Player can use bat'
+Assert-Pattern -Path $playerScript -Pattern 'WeaponChangedEventHandler' -Reason 'Player emits weapon changed signal'
 Assert-Pattern -Path $projectileScript -Pattern 'hurtbox.ApplyHit()' -Reason 'Projectile can damage hurtbox'
 Assert-Pattern -Path $weaponPickupScript -Pattern 'public WeaponKind Kind' -Reason 'Weapon pickup exports weapon kind'
 Assert-Pattern -Path $playerScene -Pattern '[node name="PickupArea" type="Area2D" parent="."]' -Reason 'Player has pickup area'

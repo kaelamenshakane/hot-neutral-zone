@@ -23,6 +23,11 @@ Update it only when project state materially changes.
 - pistol projectile attack
 - player hurtbox
 - restart input
+- level HUD with weapon status in the top-left corner
+- player death pauses the level and shows a death panel
+- R restarts the level from the death panel
+- ESC toggles a pause menu during live gameplay
+- pause menu can return to `res://Scenes/main_menu.tscn`
 - full requested Hotline-like input actions are registered:
   - attack / punch / shoot
   - pickup / throw weapon
@@ -34,9 +39,9 @@ Update it only when project state materially changes.
 - enemy behavior script
 - enemy visual reuses the player sprite with a red outline
 - one enemy per current level scene
-- bat and pistol pickups on `res://Scenes/level_1.tscn`
+- bat and pistol pickups on each current level scene
 - level victory when the single enemy is killed
-- player defeat reloads current scene
+- player defeat pauses the level and waits for R restart
 - `GameManager` handles level loading, unlock progress, save reset, and current-scene reload
 
 ## Verified commands
@@ -60,7 +65,8 @@ Update it only when project state materially changes.
 ## Current risks
 - Runtime flow still needs manual playthrough verification in the Godot editor.
 - Bat/pistol pickup, attack, throw, and enemy kill need manual playthrough verification.
-- `finish_enemy`, `look_ahead`, `lock_on`, and `pause_menu` are registered input actions but do not have gameplay behavior yet.
+- Death HUD, ESC pause, and return-to-main-menu need manual playthrough verification.
+- `finish_enemy`, `look_ahead`, and `lock_on` are registered input actions but do not have gameplay behavior yet.
 - `player.cs` appears old/unused.
 - Manual `.tscn` edits are high-risk.
 - `hotline.csproj.old` may be a local Godot-generated backup and should not be committed unless intentionally needed.
@@ -73,6 +79,7 @@ Update it only when project state materially changes.
 - `res://Scenes/player.tscn`
 - `res://Scenes/weapon_pickup.tscn`
 - `res://Scenes/projectile.tscn`
+- `res://Scenes/level_hud.tscn`
 - `GameManager` autoload
 - enemy scene and enemy script
 - weapon pickup/projectile scripts
@@ -83,5 +90,5 @@ Update it only when project state materially changes.
 - Do not expand save data beyond level unlock progress unless the task explicitly asks.
 - Do not add more levels unless the task explicitly asks.
 - Do not expand weapon architecture beyond the current minimal Bat/Pistol layer unless the task explicitly asks.
-- Do not implement downed-state, finishing, lock-on, look-ahead camera, or pause UI without an explicit task.
+- Do not implement downed-state, finishing, lock-on, or look-ahead camera without an explicit task.
 - Do not rename legacy `player.cs` unless the task is specifically about warning cleanup or depends on it.
