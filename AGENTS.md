@@ -107,7 +107,6 @@ Avoid by default:
 Before adding broad new features, prefer:
 - sync governance docs with actual repo state
 - resolve `main_level.tscn` as sandbox or legacy delete candidate
-- remove or explicitly isolate legacy `player.cs`
 - keep transcript/backups ignored or normalized
 - keep `save.json` narrow; add a save version before expanding save data
 - maintain `docs/game/combat_contract.md`
@@ -172,7 +171,6 @@ Important:
 
 ## Current known risks
 - Runtime level flow still needs manual playthrough verification in the Godot editor.
-- `player.cs` appears old/unused.
 - Manual `.tscn` edits are high-risk; keep diffs minimal.
 
 ## High-risk changes

@@ -67,7 +67,6 @@ Update it only when project state materially changes.
 - Bat/pistol pickup, attack, throw, and enemy kill need manual playthrough verification.
 - Death HUD, ESC pause, and return-to-main-menu need manual playthrough verification.
 - `finish_enemy`, `look_ahead`, and `lock_on` are registered input actions but do not have gameplay behavior yet.
-- `player.cs` appears old/unused.
 - `main_level.tscn` still needs an explicit sandbox-or-delete decision.
 - Current `LevelHud` directly handles death restart and menu return; this is acceptable for now, but future flow growth should move orchestration toward `LevelController`.
 - Manual `.tscn` edits are high-risk.
@@ -86,14 +85,13 @@ Update it only when project state materially changes.
 - enemy scene and enemy script
 - weapon pickup/projectile scripts
 - `Scripts/LevelController.cs`
-- legacy `player.cs`
 
 ## Notes for agents
 - Do not expand save data beyond level unlock progress unless the task explicitly asks.
 - Do not add more levels unless the task explicitly asks.
 - Do not expand weapon architecture beyond the current minimal Bat/Pistol layer unless the task explicitly asks.
 - Do not implement downed-state, finishing, lock-on, or look-ahead camera without an explicit task.
-- Do not rename legacy `player.cs` unless the task is specifically about warning cleanup or depends on it.
+- Legacy root `player.cs`, root `player.cs.uid`, and orphan `Scripts/player.cs.uid` were removed after confirming the active player scene uses `Scripts/PlayerController.cs`.
 - Prefer `level_1.tscn` combat-feel work over new broad systems.
 - Keep raw transcripts and local editor backups ignored or normalized before committing.
 - Use `docs/game/combat_contract.md` and `docs/qa/manual_smoke.md` as the lightweight gameplay/QA references.
