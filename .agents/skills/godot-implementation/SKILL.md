@@ -7,6 +7,7 @@ Read before editing:
 - `AGENTS.md`
 - `docs/ai/working_state.md`
 - `docs/ai/project_context.md`
+- `docs/game/combat_contract.md`
 - `docs/ai/godot_rules.md`
 
 If a task packet exists, read:
@@ -23,6 +24,10 @@ Project-specific guardrails:
 - Current level HUD handles weapon status, player death panel, R restart after death, ESC pause, and return to main menu.
 - Finish enemy, look-ahead, and lock-on input actions exist but gameplay behavior is not implemented.
 - Legacy `player.cs` may be old or unused and emits CS8981 warnings.
+- `level_1.tscn` is the current combat-feel laboratory.
+- Keep `GameManager` limited to scene routing and level unlock persistence.
+- Prefer `LevelController` for level-local flow ownership as rules grow.
+- Keep `LevelHud` as display/UI input; avoid making it the owner of broader flow.
 - Do not expand any of these unless the task explicitly asks.
 
 Process:
@@ -35,6 +40,7 @@ Process:
 7. Verify with the narrowest useful step:
    - `dotnet build`
    - `powershell -ExecutionPolicy Bypass -File tools\smoke_test.ps1`
+   - `docs/qa/manual_smoke.md` for gameplay-facing manual checks
    - Godot log inspection when relevant
 8. Report:
    - changed files

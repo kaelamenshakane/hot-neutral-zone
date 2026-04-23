@@ -44,6 +44,14 @@ It should change rarely.
 - Level victory currently means killing the single enemy in the level.
 - `GameManager` owns level loading, level unlock progress, save reset, and current-scene reload.
 
+## Current ownership boundaries
+- `GameManager` owns scene routing, current level transitions, restart, return to main menu, and persistent level unlock progress only.
+- `LevelController` owns level-local rules and should become the owner for victory/defeat orchestration as level rules grow.
+- `LevelHud` owns display and UI input. Current implementation handles death restart and pause directly; future flow growth should prefer HUD requests handled by `LevelController`.
+- `PlayerController` owns movement, aiming, local attack use, and pickup/drop.
+- `EnemyAI` owns enemy behavior only.
+- Combat primitives are intentionally small: `Hitbox`, `Hurtbox`, `Projectile`, `WeaponPickup`.
+
 ## Explicitly undecided areas
 Do not invent architecture for these unless explicitly asked:
 - final combat model
@@ -58,6 +66,11 @@ Do not invent architecture for these unless explicitly asked:
 - meta-game
 - content pipeline
 - automated test framework
+
+## Near-term project focus
+- Stabilize the current vertical slice before adding new systems.
+- Use `level_1.tscn` as the combat-feel laboratory.
+- Prefer combat feel and encounter quality over new feature breadth.
 
 ## Agent policy summary
 - Keep changes small, local, and task-bound.

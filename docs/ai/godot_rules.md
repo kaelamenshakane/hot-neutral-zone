@@ -37,6 +37,14 @@ Stop and plan before changing:
 - Do not introduce helper frameworks, service layers, registries, or generalized systems unless explicitly requested.
 - Prefer direct local fixes over abstraction.
 - Do not touch build target configuration unless the task is explicitly about build/runtime setup.
+- Prefer node-local logic and signals before adding autoload/global state.
+- Keep `GameManager` narrow; do not turn it into a combat or gameplay state owner.
+- Let scenes describe composition and scripts describe behavior.
+
+## Project organization rules
+- Keep the current `Scenes/` and `Scripts/` layout until asset count makes grouping useful.
+- Do not reorganize into feature folders just for aesthetics.
+- If structure grows, prefer gradual groups close to scenes, such as `characters/player/`, `levels/level_1/`, `ui/level_hud/`, or `weapons/bat/`.
 
 ## Verification rules
 - Prefer `dotnet build` and `tools\smoke_test.ps1` as baseline verification.

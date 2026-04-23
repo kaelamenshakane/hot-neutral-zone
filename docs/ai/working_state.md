@@ -68,6 +68,8 @@ Update it only when project state materially changes.
 - Death HUD, ESC pause, and return-to-main-menu need manual playthrough verification.
 - `finish_enemy`, `look_ahead`, and `lock_on` are registered input actions but do not have gameplay behavior yet.
 - `player.cs` appears old/unused.
+- `main_level.tscn` still needs an explicit sandbox-or-delete decision.
+- Current `LevelHud` directly handles death restart and menu return; this is acceptable for now, but future flow growth should move orchestration toward `LevelController`.
 - Manual `.tscn` edits are high-risk.
 - `hotline.csproj.old` may be a local Godot-generated backup and should not be committed unless intentionally needed.
 
@@ -92,3 +94,6 @@ Update it only when project state materially changes.
 - Do not expand weapon architecture beyond the current minimal Bat/Pistol layer unless the task explicitly asks.
 - Do not implement downed-state, finishing, lock-on, or look-ahead camera without an explicit task.
 - Do not rename legacy `player.cs` unless the task is specifically about warning cleanup or depends on it.
+- Prefer `level_1.tscn` combat-feel work over new broad systems.
+- Keep raw transcripts and local editor backups ignored or normalized before committing.
+- Use `docs/game/combat_contract.md` and `docs/qa/manual_smoke.md` as the lightweight gameplay/QA references.

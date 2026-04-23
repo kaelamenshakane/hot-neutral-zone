@@ -75,6 +75,12 @@ Do not fill these gaps with architecture unless explicitly requested:
 - content pipeline
 - automated test framework
 
+Avoid by default:
+- item database / weapon registry / inventory / ammo economy / durability
+- event bus
+- broad enemy taxonomy
+- copying mechanics only because they exist in Hotline Miami
+
 ## Governance
 - Work must be small, local, and task-bound.
 - No broad systems, registries, taxonomies, save systems, progression systems, or folder restructuring unless explicitly requested.
@@ -84,20 +90,44 @@ Do not fill these gaps with architecture unless explicitly requested:
 - Do not clean up unrelated files.
 - Do not invent framework code to prepare for hypothetical future features.
 - Preserve current repo shape unless the task explicitly asks for structural change.
+- Prefer quality of the current vertical slice over adding new systems.
+- Treat `level_1.tscn` as the current combat-feel laboratory unless a task says otherwise.
+- Keep raw transcripts and local editor backups out of project truth. Normalize useful session knowledge into `docs/ai/*`, `docs/game/*`, or `docs/qa/*`.
+
+## Ownership boundaries
+- `GameManager` owns scene routing, level unlock save/load, restart, and return to menu only.
+- `GameManager` must not own combat state, enemy state, weapon state, room state, or player inventory.
+- `LevelController` owns level-local flow and should become the place for victory/defeat orchestration as level rules grow.
+- `LevelHud` owns display and UI input. For future flow growth, prefer emitting requests from HUD and handling them in `LevelController`.
+- `PlayerController` owns movement, aiming, local attack use, and local pickup/drop interaction.
+- `EnemyAI` owns enemy behavior only.
+- Combat primitives stay small: `Hitbox`, `Hurtbox`, `Projectile`, `WeaponPickup`.
+
+## Stabilization priorities
+Before adding broad new features, prefer:
+- sync governance docs with actual repo state
+- resolve `main_level.tscn` as sandbox or legacy delete candidate
+- remove or explicitly isolate legacy `player.cs`
+- keep transcript/backups ignored or normalized
+- keep `save.json` narrow; add a save version before expanding save data
+- maintain `docs/game/combat_contract.md`
+- maintain `docs/qa/manual_smoke.md`
 
 ## Source-of-truth order
 1. `docs/ai/working_state.md`
 2. `docs/ai/project_context.md`
-3. `docs/ai/godot_rules.md`
-4. `docs/ai/decisions.md`
-5. existing Godot project files
-6. code comments
+3. `docs/game/combat_contract.md`
+4. `docs/ai/godot_rules.md`
+5. `docs/ai/decisions.md`
+6. existing Godot project files
+7. code comments
 
 ## Required reading before editing
 Read these before coding:
 - `AGENTS.md`
 - `docs/ai/working_state.md`
 - `docs/ai/project_context.md`
+- `docs/game/combat_contract.md`
 - `docs/ai/godot_rules.md`
 
 If the task packet exists, also read:
@@ -129,7 +159,8 @@ If the task is ambiguous or high-risk, give a short plan first.
 Default verification order:
 1. `dotnet build`
 2. `powershell -ExecutionPolicy Bypass -File tools\smoke_test.ps1`
-3. inspect logs when Godot CLI is involved:
+3. use `docs/qa/manual_smoke.md` for gameplay-facing manual checks when relevant
+4. inspect logs when Godot CLI is involved:
    - `powershell -ExecutionPolicy Bypass -File tools\godot_last_errors.ps1`
 
 Important:

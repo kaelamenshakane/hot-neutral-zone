@@ -7,6 +7,7 @@ Read before review:
 - `AGENTS.md`
 - `docs/ai/working_state.md`
 - `docs/ai/project_context.md`
+- `docs/game/combat_contract.md`
 - `docs/ai/godot_rules.md`
 
 Review for:
@@ -15,8 +16,9 @@ Review for:
 3. Did it change `project.godot`, input map, autoloads, build targets, scene routing, physics layers, or resource paths?
 4. Did it manually edit `.tscn`, `.tres`, or `.res` safely?
 5. Did it expand `GameManager`, level unlock save data, level scenes, weapon architecture, or rename legacy `player.cs` without explicit reason?
-6. Did it add architecture that was not requested?
-7. Was verification honest and sufficient for this environment?
+6. Did it move level-flow ownership away from `LevelController` or turn `LevelHud` into a broader orchestrator without explicit reason?
+7. Did it add architecture that was not requested?
+8. Was verification honest and sufficient for this environment?
 
 Do not:
 - suggest new features

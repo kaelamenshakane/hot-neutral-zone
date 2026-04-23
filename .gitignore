@@ -12,3 +12,7 @@ Thumbs.db
 
 # Local runtime logs
 logs/
+
+# Local Godot/editor backups and raw chat captures
+*.csproj.old
+docs/ai/thread_transcript_*.txt
