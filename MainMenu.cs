@@ -20,7 +20,28 @@ public partial class MainMenu : Control
 
 	private readonly List<AnimatedMenuText> _animatedTexts = new();
 	private readonly List<Button> _levelButtons = new();
+	private readonly RandomNumberGenerator _random = new();
 	private float _menuTime;
+
+	private static readonly ColorPair[] TitlePalettes =
+	{
+		new(new Color(0.08f, 0.02f, 0.16f), new Color(0.14f, 0.95f, 0.28f)),
+		new(new Color(0.02f, 0.04f, 0.18f), new Color(1.00f, 0.22f, 0.08f)),
+		new(new Color(0.18f, 0.01f, 0.08f), new Color(0.08f, 0.90f, 1.00f)),
+		new(new Color(0.10f, 0.02f, 0.20f), new Color(0.96f, 0.94f, 0.12f)),
+		new(new Color(0.02f, 0.13f, 0.12f), new Color(1.00f, 0.10f, 0.72f)),
+		new(new Color(0.22f, 0.07f, 0.02f), new Color(0.18f, 0.36f, 1.00f))
+	};
+
+	private static readonly ColorPair[] BackgroundPalettes =
+	{
+		new(new Color(0.00f, 0.00f, 0.00f), new Color(0.00f, 1.00f, 0.18f)),
+		new(new Color(0.03f, 0.00f, 0.08f), new Color(0.84f, 1.00f, 0.00f)),
+		new(new Color(0.00f, 0.03f, 0.12f), new Color(1.00f, 0.14f, 0.03f)),
+		new(new Color(0.12f, 0.00f, 0.04f), new Color(0.00f, 0.92f, 0.86f)),
+		new(new Color(0.00f, 0.08f, 0.04f), new Color(1.00f, 0.72f, 0.00f)),
+		new(new Color(0.04f, 0.02f, 0.00f), new Color(0.68f, 0.08f, 1.00f))
+	};
 
 	public override void _Ready()
 	{
@@ -53,9 +74,13 @@ public partial class MainMenu : Control
 		if (_feedbackButton != null)
 			_feedbackButton.Pressed += OnFeedback;
 
-		SetupBackgroundGradient();
+		_random.Randomize();
+		ColorPair titlePalette = PickPalette(TitlePalettes);
+		ColorPair backgroundPalette = PickDistinctBackgroundPalette(titlePalette);
+
+		SetupBackgroundGradient(backgroundPalette);
 		SetupLevelSelectMenu();
-		SetupAnimatedText(_titleLabel, new Color(0.08f, 0.02f, 0.16f), new Color(0.14f, 0.95f, 0.28f), 0.0f, 8.0f, 0.0f, 2.4f, 1.25f, 1.6f, true);
+		SetupAnimatedText(_titleLabel, titlePalette.Dark, titlePalette.Bright, 0.0f, 8.0f, 0.0f, 2.4f, 1.25f, 1.6f, true);
 		SetupAnimatedText(_newGameButton, new Color(0.12f, 0.02f, 0.22f), new Color(0.20f, 1.00f, 0.36f), 0.6f, 2.0f, 2.0f, 1.2f, 1.45f, 1.2f, false);
 		SetupAnimatedText(_continueButton, new Color(0.06f, 0.04f, 0.20f), new Color(0.48f, 0.96f, 0.26f), 1.8f, 1.5f, 2.5f, -1.0f, 1.35f, 1.35f, false);
 		SetupAnimatedText(_quitButton, new Color(0.16f, 0.02f, 0.18f), new Color(0.12f, 0.86f, 0.58f), 2.9f, 1.0f, 2.0f, 0.9f, 1.55f, 1.1f, false);
@@ -69,14 +94,35 @@ public partial class MainMenu : Control
 			AnimateText(animatedText);
 	}
 
-	private void SetupBackgroundGradient()
+	private ColorPair PickPalette(ColorPair[] palettes)
+	{
+		return palettes[_random.RandiRange(0, palettes.Length - 1)];
+	}
+
+	private ColorPair PickDistinctBackgroundPalette(ColorPair titlePalette)
+	{
+		ColorPair backgroundPalette = PickPalette(BackgroundPalettes);
+
+		for (int i = 0; i < BackgroundPalettes.Length && ColorsAreClose(backgroundPalette.Bright, titlePalette.Bright); i++)
+			backgroundPalette = BackgroundPalettes[(i + 1) % BackgroundPalettes.Length];
+
+		return backgroundPalette;
+	}
+
+	private static bool ColorsAreClose(Color first, Color second)
+	{
+		float distance = Mathf.Abs(first.R - second.R) + Mathf.Abs(first.G - second.G) + Mathf.Abs(first.B - second.B);
+		return distance < 0.45f;
+	}
+
+	private void SetupBackgroundGradient(ColorPair backgroundPalette)
 	{
 		if (_backgroundGradient != null)
 			return;
 
 		var gradient = new Gradient();
-		gradient.SetColor(0, Colors.Black);
-		gradient.SetColor(1, new Color(0.0f, 1.0f, 0.18f, 1.0f));
+		gradient.SetColor(0, backgroundPalette.Dark);
+		gradient.SetColor(1, backgroundPalette.Bright);
 
 		var texture = new GradientTexture2D
 		{
@@ -423,5 +469,17 @@ public partial class MainMenu : Control
 		public float PulseSpeed;
 		public float SwaySpeed;
 		public bool SplitIntoLetters;
+	}
+
+	private readonly struct ColorPair
+	{
+		public ColorPair(Color dark, Color bright)
+		{
+			Dark = dark;
+			Bright = bright;
+		}
+
+		public readonly Color Dark;
+		public readonly Color Bright;
 	}
 }

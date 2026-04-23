@@ -93,6 +93,9 @@ Assert-Pattern -Path $menuScript -Pattern 'OnContinuePressed' -Reason 'Continue 
 Assert-Pattern -Path $menuScript -Pattern 'OnResetSavePressed' -Reason 'Reset save handler exists'
 Assert-Pattern -Path $menuScript -Pattern 'LoadLevel(levelNumber)' -Reason 'Level select loads levels'
 Assert-Pattern -Path $menuScript -Pattern 'OnQuitPressed' -Reason 'Quit handler exists'
+Assert-Pattern -Path $menuScript -Pattern 'TitlePalettes' -Reason 'Main menu has randomized title palettes'
+Assert-Pattern -Path $menuScript -Pattern 'BackgroundPalettes' -Reason 'Main menu has randomized background palettes'
+Assert-Pattern -Path $menuScript -Pattern 'PickDistinctBackgroundPalette' -Reason 'Main menu keeps title and background palettes distinct'
 
 $gameManagerScript = Join-Path $root 'Scripts/GameManager.cs'
 $levelControllerScript = Join-Path $root 'Scripts/LevelController.cs'

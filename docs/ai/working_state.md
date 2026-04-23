@@ -12,7 +12,7 @@ Update it only when project state materially changes.
 - Level progression currently runs through `res://Scenes/level_1.tscn`, `res://Scenes/level_2.tscn`, and `res://Scenes/level_3.tscn`
 
 ## Implemented systems in play
-- main menu with animated title and buttons
+- main menu with animated title/buttons and randomized title/background color palettes on entry
 - runtime level-select menu
 - persistent level-unlock save at `user://save.json`
 - player movement
