@@ -18,6 +18,7 @@ public partial class GameManager : Node
 
     private int _currentLevelNumber;
     private int _highestUnlockedLevel = DefaultUnlockedLevel;
+    private bool _sceneChangeQueued;
 
     public override void _Ready()
     {
@@ -52,7 +53,7 @@ public partial class GameManager : Node
         }
 
         _currentLevelNumber = levelNumber;
-        GetTree().ChangeSceneToFile(_levelPaths[levelNumber - 1]);
+        ChangeSceneDeferred(_levelPaths[levelNumber - 1]);
     }
 
     public void CompleteLevel(int levelNumber)
@@ -75,7 +76,7 @@ public partial class GameManager : Node
         if (levelNumber < TotalLevels)
             LoadLevel(levelNumber + 1);
         else
-            GetTree().ChangeSceneToFile("res://Scenes/main_menu.tscn");
+            ChangeSceneDeferred("res://Scenes/main_menu.tscn");
     }
 
     public void CompleteCurrentLevel()
@@ -91,7 +92,17 @@ public partial class GameManager : Node
 
     public void RestartCurrentScene()
     {
+        if (_sceneChangeQueued)
+            return;
+
+        _sceneChangeQueued = true;
+        CallDeferred(MethodName.RestartCurrentSceneDeferred);
+    }
+
+    private void RestartCurrentSceneDeferred()
+    {
         GetTree().ReloadCurrentScene();
+        _sceneChangeQueued = false;
     }
 
     public void ResetSave()
@@ -140,6 +151,21 @@ public partial class GameManager : Node
 
         var options = new JsonSerializerOptions { WriteIndented = true };
         File.WriteAllText(globalPath, JsonSerializer.Serialize(saveData, options));
+    }
+
+    private void ChangeSceneDeferred(string scenePath)
+    {
+        if (_sceneChangeQueued)
+            return;
+
+        _sceneChangeQueued = true;
+        CallDeferred(MethodName.ChangeSceneDeferredImpl, scenePath);
+    }
+
+    private void ChangeSceneDeferredImpl(string scenePath)
+    {
+        GetTree().ChangeSceneToFile(scenePath);
+        _sceneChangeQueued = false;
     }
 
     private sealed class SaveData

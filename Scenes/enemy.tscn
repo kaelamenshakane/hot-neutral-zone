@@ -1,7 +1,8 @@
-[gd_scene load_steps=7 format=3 uid="uid://2d4yo18sgw0j"]
+[gd_scene load_steps=8 format=3 uid="uid://2d4yo18sgw0j"]
 
 [ext_resource type="Script" uid="uid://5mcwncbn1jaa" path="res://Scripts/EnemyAI.cs" id="1_hghv2"]
 [ext_resource type="Texture2D" uid="uid://dq8a7emtvekh3" path="res://player.png" id="2_player"]
+[ext_resource type="Script" uid="uid://k1iw3sceea35" path="res://Scripts/Hurtbox.cs" id="3_hurtbox"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_vision"]
 radius = 360.0
@@ -35,6 +36,7 @@ texture = ExtResource("2_player")
 shape = SubResource("CircleShape2D_vision")
 
 [node name="Hurtbox" type="Area2D" parent="." unique_id=681372479]
+script = ExtResource("3_hurtbox")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Hurtbox" unique_id=499539474]
 shape = SubResource("RectangleShape2D_hurtbox")
