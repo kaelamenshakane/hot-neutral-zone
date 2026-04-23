@@ -1,27 +1,36 @@
 # Task Packet
 
-Copy this format into Codex when assigning work.
+Use this format when assigning work to Codex.
+
+## Skill
+`$godot-implementation` or `$godot-review`
 
 ## Goal
-What should change?
+One concrete thing to change or inspect.
 
 ## Why
-Why is this needed now?
+Why this is needed now.
 
 ## Allowed scope
-Files, scenes, systems, or folders Codex may touch.
+Exact files, scenes, folders, or systems that may be touched.
 
 ## Do not change
-Files, scenes, systems, naming, behavior, or assets Codex must not touch.
+Exact files, scenes, folders, systems, naming, or behavior that must stay untouched.
 
 ## Current symptoms
-For bugs only.
+For bug work only.
+Paste exact errors, warnings, logs, or visible behavior.
 
-## Expected behavior
-What should happen after the task is done?
+## Expected result
+What should be true when the task is done.
 
-## Acceptance check
-How to verify manually or via command.
+## Verification
+Command or manual check to run.
 
 ## Notes
-Anything temporary, placeholder, or intentionally ugly.
+Placeholder allowances, temporary hacks allowed, or constraints.
+
+## Report format
+- changed files
+- verification run
+- remaining risks

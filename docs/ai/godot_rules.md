@@ -1,55 +1,54 @@
-# Godot Rules for Codex
+# Godot Rules
 
-## General
-This is a Godot project. Preserve current Godot conventions.
+This file defines local rules for safe work in this Godot 4.6 C# repo.
 
-Godot uses scenes, nodes, resources, scripts, and filesystem paths heavily.
-Path stability matters.
+## Naming and file rules
+- Existing names are source of truth.
+- For new scenes, resources, and folders use `snake_case`.
+- For new C# script files use `PascalCase` matching the class name.
+- Use `PascalCase` for node names.
+- For new C# code prefer:
+  - `PascalCase`: classes, methods, properties, exported members, events
+  - `_camelCase`: private fields
+  - `camelCase`: locals and parameters
+- Do not rename existing lowercase legacy files/classes unless the task explicitly targets them.
 
-## File and naming rules
-- Use snake_case for file and folder names.
-- Use PascalCase for node names.
-- Keep scene names and script names consistent with nearby project style.
-- Do not rename resources unless the task explicitly requires it.
-- Do not move files unless the task explicitly requires it.
+## Scene/resource safety
+- Avoid manual edits to `.tscn`, `.tres`, and `.res` unless they are the smallest safe change.
+- If a manual edit is necessary, keep the diff minimal and verify resource paths and node references.
+- Do not move or rename scenes/resources casually.
+- Path stability matters.
 
-## Generated files
-Do not edit:
-- .godot/
-- imported/generated cache files
-- temporary editor files
+## Project-level danger zone
+Stop and plan before changing:
+- `project.godot`
+- main scene routing
+- input map
+- autoloads
+- physics layers / masks
+- import settings
+- export settings
+- `.csproj` / `.sln`
+- target frameworks
+- Android target override
 
-## Scenes and resources
-Be careful with:
-- .tscn
-- .tres
-- .res
-- project.godot
+## C# project rules
+- Preserve existing namespace style nearby.
+- Do not introduce helper frameworks, service layers, registries, or generalized systems unless explicitly requested.
+- Prefer direct local fixes over abstraction.
+- Do not touch build target configuration unless the task is explicitly about build/runtime setup.
 
-Manual edits to .tscn/.tres are allowed only when they are the smallest safe change.
-Prefer editor-generated structure when possible.
-If editing them manually, keep diffs minimal and check references.
+## Verification rules
+- Prefer `dotnet build` and `tools\smoke_test.ps1` as baseline verification.
+- When Godot CLI is involved, use `tools\godot_run_with_log.ps1` and inspect logs with `tools\godot_last_errors.ps1`.
+- Do not trust `godot --headless --path . --import` exit code alone in this environment.
 
-## Scripts
-Before changing a script:
-- inspect nearby scripts for style
-- preserve signal names
-- preserve exported variable names unless change is required
-- preserve node paths unless change is required
-- preserve input action names unless change is required
-
-## Input
-Do not add or rename input actions without calling it out.
-Changes to input map are project-level decisions.
-
-## Autoloads
-Do not add singletons/autoloads casually.
-Adding an autoload is an architecture decision.
-
-## Physics
-Do not change collision layers or masks casually.
-Changing them can break unrelated scenes.
-
-## Verification commands
-Prefer commands from docs/ai/working_state.md.
-If commands fail because Godot is missing locally, report that directly.
+## Out of scope by default
+- save systems
+- progression systems
+- meta-game systems
+- content registries
+- taxonomies
+- folder restructuring
+- broad cleanup passes
+- speculative refactors

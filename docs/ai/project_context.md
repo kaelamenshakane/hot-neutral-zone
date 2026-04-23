@@ -1,29 +1,40 @@
 # Project Context
 
-## Stable facts
-- Engine: Godot.
-- Team size: 2 people.
-- Version control: Git.
-- Art direction: pixel art.
-- Broad reference: Hotline Miami-like top-down violent action.
-- Development stage: early; internal architecture is not fixed.
+This file records stable project truth.
+It should change rarely.
 
-## Current intent
-Build the project incrementally.
-Use Codex mostly for programming help, debugging, Godot glue, refactors, and review.
+## Identity
+- Repo path: `D:\hotneutralzone`
+- Project/config name: `hotline`
+- Engine: Godot 4.6 C#
+- Genre direction: pixel-art top-down violent action in the broad Hotline Miami lineage
+- Stage: early development / pre-architecture
 
-## Constraints
-- Keep scope small.
-- Keep code readable.
-- Keep iteration fast.
-- Avoid premature systems.
-- Avoid architecture invented by Codex without explicit request.
+## Technical baseline
+- C# target: `net8.0`
+- Android target override: `net9.0`
+- Main scene: `res://Scenes/main_menu.tscn`
+- Autoload: `GameManager`
+- Input map:
+  - movement: WASD
+  - attack: left mouse
+  - restart: R
 
-## Non-decisions
-These are not decided yet:
-- exact combat model
-- exact level structure
-- final folder structure
+## Current implemented shape
+- Main menu exists with animated title and buttons.
+- Main menu starts `res://Scenes/main_level.tscn`.
+- `main_level.tscn` currently instantiates only `player.tscn`.
+- Player currently has movement, mouse-facing aim pivot, melee hitbox, hurtbox, and restart.
+- Enemy scene exists with patrol/search/chase/attack behavior, but is not placed in `main_level.tscn`.
+- Hitbox/Hurtbox model is minimal:
+  - enemy dies via `QueueFree`
+  - player hit reloads scene
+- `GameManager` currently only reloads the current scene.
+
+## Explicitly undecided areas
+Do not invent architecture for these unless explicitly asked:
+- final combat model
+- level architecture
 - enemy taxonomy
 - weapon taxonomy
 - progression
@@ -32,6 +43,8 @@ These are not decided yet:
 - content pipeline
 - automated test framework
 
-## Codex rule
-If a task touches an undecided area, Codex must not fill the gap with a large design assumption.
-It should implement only the requested slice or flag the missing decision.
+## Agent policy summary
+- Keep changes small, local, and task-bound.
+- Prefer current repo truth over abstract best practice.
+- Avoid speculative architecture.
+- Preserve names and paths unless the task requires a change.

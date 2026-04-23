@@ -1,84 +1,141 @@
 # AGENTS.md
 
 ## Project
-This is a Godot game project developed by two people in Git.
+This repository is a Godot 4.6 C# game project at `D:\hotneutralzone`.
+Project/config name: `hotline`.
+Genre direction: pixel-art top-down violent action in the broad lineage of Hotline Miami.
+Stage: early development / pre-architecture.
 
-Stable known facts:
-- Engine: Godot.
-- Visual direction: pixel art.
-- Broad reference: fast top-down violent action in the lineage of Hotline Miami.
-- Current phase: early development / pre-architecture.
-- Codex model target: gpt-5.4 with xhigh reasoning.
+Primary rule:
+Do not invent architecture before it exists.
 
-## Core instruction
-Do not invent the internal game architecture before it exists.
+## Stable technical facts
+- Engine: Godot 4.6 C#.
+- C# target: `net8.0`.
+- Android target override: `net9.0`.
+- Main scene: `res://Scenes/main_menu.tscn`.
+- Autoload: `GameManager`.
+- Input map:
+  - movement: WASD
+  - attack: left mouse
+  - restart: R
 
-Codex must help implement requested Godot tasks while preserving the current repo shape.
-When a task lacks design detail, ask for the smallest missing implementation fact or implement a neutral placeholder only if explicitly allowed.
+## Current implemented state
+- Main menu exists with animated title and buttons.
+- Main menu starts `res://Scenes/main_level.tscn`.
+- `main_level.tscn` currently instantiates only `player.tscn`.
+- Player currently has:
+  - movement
+  - mouse-facing aim pivot
+  - melee hitbox
+  - hurtbox
+  - restart
+- Enemy scene exists with patrol/search/chase/attack behavior, but is not placed in `main_level.tscn`.
+- Hitbox/Hurtbox model is minimal:
+  - enemy dies via `QueueFree`
+  - player hit reloads scene
+- `GameManager` currently only reloads the current scene.
 
-## What not to do
-Do not create large design systems unless requested.
-Do not create a combat model, progression model, content registry, enemy taxonomy, weapon taxonomy, save system, inventory system, or level architecture unless the task explicitly asks for it.
-Do not turn a small implementation request into a full framework.
-Do not rename scenes, scripts, resources, nodes, signals, input actions, or autoloads unless required.
-Do not reorganize folders proactively.
+## Not implemented / not decided
+Do not fill these gaps with architecture unless explicitly requested:
+- final combat model
+- level architecture
+- enemy taxonomy
+- weapon taxonomy
+- progression
+- save/load
+- meta-game
+- content pipeline
+- automated test framework
 
-## Source of truth order
-When facts conflict, use this order:
-1. docs/ai/working_state.md
-2. docs/ai/project_context.md
-3. docs/ai/godot_rules.md
-4. docs/ai/decisions.md
-5. the existing Godot project files
-6. comments in code
+## Governance
+- Work must be small, local, and task-bound.
+- No broad systems, registries, taxonomies, save systems, progression systems, or folder restructuring unless explicitly requested.
+- Do not rename scenes, scripts, resources, nodes, signals, input actions, autoloads, resource paths, or target frameworks unless required by the task.
+- Do not create tracker files, planning frameworks, PLANS.md, or backlog systems unless explicitly requested.
+- Do not spawn subagents unless explicitly requested.
+- Do not clean up unrelated files.
+- Do not invent framework code to prepare for hypothetical future features.
+- Preserve current repo shape unless the task explicitly asks for structural change.
 
-## Required reading before coding
-Before editing code or scenes, read:
-- docs/ai/working_state.md
-- docs/ai/project_context.md
-- docs/ai/godot_rules.md
+## Source-of-truth order
+1. `docs/ai/working_state.md`
+2. `docs/ai/project_context.md`
+3. `docs/ai/godot_rules.md`
+4. `docs/ai/decisions.md`
+5. existing Godot project files
+6. code comments
 
-If the user gives a task packet, read:
-- docs/ai/task_packet.md
+## Required reading before editing
+Read these before coding:
+- `AGENTS.md`
+- `docs/ai/working_state.md`
+- `docs/ai/project_context.md`
+- `docs/ai/godot_rules.md`
 
-## Godot behavior
-Prefer small, local edits.
-Prefer current project conventions over external opinions.
-When creating files, use snake_case for file and folder names.
-When creating Godot nodes, use PascalCase names.
-When adding GDScript, keep it readable, typed where the surrounding code is typed, and consistent with nearby scripts.
-Do not hand-edit generated/cache folders.
-Avoid broad manual rewrites of .tscn and .tres files.
-If a .tscn or .tres edit is necessary, explain why and keep the diff minimal.
+If the task packet exists, also read:
+- `docs/ai/task_packet.md`
 
-## Dangerous changes
-Stop and plan first before changing:
-- project.godot
-- input map
-- autoloads/singletons
-- physics layers/masks
-- import settings
-- export settings
-- scene ownership structure
-- resource paths
-- anything that renames or moves scenes/resources
+## Skill usage
+Use:
+- `$godot-implementation` for concrete code or scene changes
+- `$godot-review` for review-only work
 
-## Implementation protocol
-For each coding task:
-1. Restate the requested change as a small implementation target.
-2. Identify likely touched files.
-3. Check current conventions in nearby files.
+## Working protocol
+For each task:
+1. Convert the request into one small implementation target.
+2. Identify the likely touched files.
+3. Inspect nearby scene/script conventions before changing anything.
 4. Make the smallest viable change.
-5. Run the narrowest available verification command.
-6. Report changed files, verification, and remaining risks.
+5. Run the narrowest useful verification.
+6. Report:
+   - changed files
+   - what was verified
+   - remaining gaps
+   - risks
+
+Do not emit long preambles.
+If the task is simple and low-risk, act.
+If the task is ambiguous or high-risk, give a short plan first.
 
 ## Verification
-Use the commands documented in docs/ai/working_state.md.
-If no Godot binary or no verification command is available, say exactly what was not run.
-Never claim the project runs unless it was actually run.
+Default verification order:
+1. `dotnet build`
+2. `powershell -ExecutionPolicy Bypass -File tools\smoke_test.ps1`
+3. inspect logs when Godot CLI is involved:
+   - `powershell -ExecutionPolicy Bypass -File tools\godot_last_errors.ps1`
+
+Important:
+- Do not trust `godot --headless --path . --import` exit code alone in this environment.
+- The installed Godot CLI may not be the .NET editor/runtime.
+- Parse logs before claiming success for C# script loading.
+- Never claim the project runs unless it was actually run.
+
+## Current known risks
+- Runtime not yet confirmed in a working Godot .NET editor session.
+- Enemy scene is disconnected from main level.
+- `player.cs` appears old/unused and emits CS8981 warning due to lowercase class naming.
+- Manual `.tscn` edits are high-risk; keep diffs minimal.
+
+## High-risk changes
+Stop and plan before changing:
+- `project.godot`
+- autoload setup
+- input map
+- scene ownership / scene root structure
+- resource paths
+- physics layers / masks
+- import settings
+- export settings
+- build target configuration
+- main scene routing
+
+## Existing tooling
+- `tools/smoke_test.ps1`
+- `tools/godot_run_with_log.ps1`
+- `tools/godot_last_errors.ps1`
 
 ## Git discipline
-One task, one branch, one coherent diff.
-Do not bundle unrelated cleanup.
-Do not format unrelated files.
-Do not commit unless explicitly asked.
+- One task, one coherent diff.
+- No unrelated cleanup in the same change.
+- Do not commit unless explicitly asked.

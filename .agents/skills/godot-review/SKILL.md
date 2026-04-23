@@ -1,23 +1,31 @@
 ---
 name: godot-review
-description: Use when reviewing Godot diffs before commit or merge. Focus on regressions, unsafe Godot file edits, scene/resource path breakage, lifecycle mistakes, signals, input map changes, autoloads, and accidental architecture creep.
+description: Use for reviewing diffs in this Godot 4.6 C# repo. Focus on regression risk, unsafe scene/resource edits, project-level setting changes, naming and path breakage, and accidental architecture creep. Do not use for design ideation.
 ---
 
-Review focus:
+Read before review:
+- `AGENTS.md`
+- `docs/ai/working_state.md`
+- `docs/ai/project_context.md`
+- `docs/ai/godot_rules.md`
+
+Review for:
 1. Did the diff solve the requested task?
 2. Did it touch more files than necessary?
-3. Did it edit .tscn/.tres safely?
-4. Did it change resource paths, node names, signals, exported variables, input actions, collision layers, autoloads, or project.godot?
-5. Did it introduce architecture not requested?
-6. Does the code follow nearby Godot/GDScript style?
-7. Is there a simple manual test path?
+3. Did it change `project.godot`, input map, autoloads, build targets, scene routing, physics layers, or resource paths?
+4. Did it manually edit `.tscn`, `.tres`, or `.res` safely?
+5. Did it expand `GameManager`, connect enemy into the main level, or rename legacy `player.cs` without explicit reason?
+6. Did it add architecture that was not requested?
+7. Was verification honest and sufficient for this environment?
 
-Do not review as a game designer unless asked.
-Do not suggest new mechanics.
-Do not request broad refactors unless there is a concrete risk.
+Do not:
+- suggest new features
+- propose broad refactors without concrete risk
+- redesign systems that were not part of the task
 
 Return:
 - blocking issues
 - non-blocking issues
-- Godot-specific risks
-- suggested verification
+- verification gaps
+- accidental architecture creep
+- Godot-specific risk notes

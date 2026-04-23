@@ -1,68 +1,55 @@
 # Working State
 
-## Engine
-Godot version:
-- unknown / fill in after project creation
+This file tracks the current working snapshot.
+Update it only when project state materially changes.
 
-Godot binary:
-- use `godot` if available on PATH
-- otherwise set local shell variable or env var `GODOT_BIN`
+## Current runnable flow
+- Main entry scene: `res://Scenes/main_menu.tscn`
+- Main menu start action opens: `res://Scenes/main_level.tscn`
+- `main_level.tscn` currently instantiates only `player.tscn`
 
-## Current phase
-Early project setup.
-No final architecture yet.
+## Implemented systems in play
+- main menu with animated title and buttons
+- player movement
+- mouse-facing aim pivot
+- melee hitbox
+- player hurtbox
+- restart input
+- enemy behavior script exists off-level
+- `GameManager` reloads current scene
 
-## Main runnable scene
-Main menu:
+## Verified commands
+- `powershell -ExecutionPolicy Bypass -File tools\smoke_test.ps1` -> passes
+- `dotnet build` -> succeeds
+- `godot --version` -> `4.6.2.stable.official.71f334935`
+
+## Verification caveats
+- Build emits CS8981 warnings from legacy `player.cs` lowercase class.
+- `godot --headless --path . --import` exits 0 but logs C# script loading errors in this environment.
+- The installed Godot CLI is likely not the .NET editor/runtime.
+- Do not trust exit code alone for Godot CLI C# validation.
+
+## Preferred verification order
+1. `dotnet build`
+2. `powershell -ExecutionPolicy Bypass -File tools\smoke_test.ps1`
+3. `powershell -ExecutionPolicy Bypass -File tools\godot_run_with_log.ps1`
+4. `powershell -ExecutionPolicy Bypass -File tools\godot_last_errors.ps1`
+
+## Current risks
+- Runtime not confirmed in a working Godot .NET editor session.
+- Enemy scene is disconnected from main level.
+- `player.cs` appears old/unused and causes warnings.
+- Manual `.tscn` edits are high-risk.
+
+## Current hot spots
 - `res://Scenes/main_menu.tscn`
+- `res://Scenes/main_level.tscn`
+- `res://Scenes/player.tscn`
+- `GameManager` autoload
+- enemy scene and enemy script
+- legacy `player.cs`
 
-## Current focus
-Set up the repository so Codex can safely help with Godot programming tasks.
-
-## Known working commands
-Open editor:
-
-```bash
-godot -e --path .
-```
-
-Run project:
-
-```bash
-godot --path .
-```
-
-Import check:
-
-```bash
-godot --headless --path . --import
-```
-
-Run specific scene:
-
-```bash
-godot --path . path/to/scene.tscn
-```
-
-Run project with persistent log capture:
-
-```bash
-powershell -ExecutionPolicy Bypass -File tools/godot_run_with_log.ps1
-```
-
-Extract error-like lines from captured log:
-
-```bash
-powershell -ExecutionPolicy Bypass -File tools/godot_last_errors.ps1
-```
-
-## Known broken things
-- none recorded yet
-
-## Current active task
-- none
-
-## Notes for Codex
-Do not infer game architecture.
-Use existing files as the source of truth.
-If no relevant file exists yet, create the smallest file required by the task.
+## Notes for agents
+- Do not connect enemy into `main_level.tscn` unless the task explicitly asks.
+- Do not expand `GameManager` beyond scene reload unless the task explicitly asks.
+- Do not rename legacy `player.cs` unless the task is specifically about warning cleanup or depends on it.
