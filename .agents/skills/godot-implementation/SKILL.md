@@ -14,9 +14,13 @@ If a task packet exists, read:
 
 Project-specific guardrails:
 - Current main scene is `res://Scenes/main_menu.tscn`.
-- `main_level.tscn` currently instantiates only `player.tscn`.
-- Enemy exists but is not connected to the main level by default.
-- `GameManager` currently only reloads the current scene.
+- Current playable levels are `res://Scenes/level_1.tscn`, `res://Scenes/level_2.tscn`, and `res://Scenes/level_3.tscn`.
+- Each current level has one player and one enemy.
+- `level_1.tscn` has bat and pistol pickups.
+- `GameManager` owns level loading, level unlock progress, save reset, and current-scene reload.
+- Persistent unlock progress is stored in `user://save.json`.
+- Current weapon layer is minimal: `WeaponKind`, nearby pickup/drop, bat melee hitbox scaling, pistol projectile.
+- Finish enemy, look-ahead, lock-on, and pause/menu input actions exist but gameplay behavior is not implemented.
 - Legacy `player.cs` may be old or unused and emits CS8981 warnings.
 - Do not expand any of these unless the task explicitly asks.
 

@@ -29,6 +29,32 @@ Agents must parse logs and report exact verification limits instead of overclaim
 Revisit only if:
 We confirm a working Godot .NET editor/runtime CLI in the environment.
 
+## 2026-04-23 — Minimal persistent level unlock save
+Decision:
+Use `user://save.json` for persistent level unlock progress.
+
+Reason:
+The project needs Continue and replayable completed levels now, but does not need full game-state persistence.
+
+Impact:
+The save currently stores level unlock progress only. Do not add player position, enemy state, inventory, stats, or broader save data unless explicitly requested.
+
+Revisit only if:
+We explicitly decide to implement full save/load or a broader progression model.
+
+## 2026-04-23 -- Minimal weapon layer
+Decision:
+Use a minimal weapon layer with `WeaponKind`, `WeaponPickup`, bat melee hitbox scaling, and pistol projectiles.
+
+Reason:
+The game needs pickup/throw and first weapon behavior now, but does not need inventory, ammo economy, weapon taxonomy, or combat framework yet.
+
+Impact:
+Agents may extend Bat/Pistol behavior when explicitly tasked, but must not introduce generalized weapon architecture, ammo systems, or combat state machines by default.
+
+Revisit only if:
+We explicitly decide to design the final combat/weapon model.
+
 ## Template
 ### YYYY-MM-DD — Decision title
 Decision:

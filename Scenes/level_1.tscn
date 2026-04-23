@@ -1,0 +1,25 @@
+[gd_scene load_steps=5 format=3]
+
+[ext_resource type="PackedScene" path="res://Scenes/player.tscn" id="1_player"]
+[ext_resource type="PackedScene" path="res://Scenes/enemy.tscn" id="2_enemy"]
+[ext_resource type="Script" path="res://Scripts/LevelController.cs" id="3_level"]
+[ext_resource type="PackedScene" path="res://Scenes/weapon_pickup.tscn" id="4_weapon"]
+
+[node name="Level1" type="Node2D"]
+script = ExtResource("3_level")
+LevelNumber = 1
+EnemyPath = NodePath("Enemy")
+
+[node name="Player" parent="." instance=ExtResource("1_player")]
+position = Vector2(320, 360)
+
+[node name="Enemy" parent="." instance=ExtResource("2_enemy")]
+position = Vector2(820, 360)
+
+[node name="BatPickup" parent="." instance=ExtResource("4_weapon")]
+position = Vector2(420, 300)
+Kind = 1
+
+[node name="PistolPickup" parent="." instance=ExtResource("4_weapon")]
+position = Vector2(420, 430)
+Kind = 2

@@ -131,6 +131,6 @@ public partial class EnemyAI : CharacterBody2D
 
     private void OnAttackAreaEntered(Area2D area)
     {
-        if (area is Hurtbox hb) hb.ApplyHit();
+        if (area is Hurtbox hb && hb.GetParent() != this) hb.ApplyHit();
     }
 }

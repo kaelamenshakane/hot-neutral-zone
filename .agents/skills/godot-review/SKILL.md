@@ -14,7 +14,7 @@ Review for:
 2. Did it touch more files than necessary?
 3. Did it change `project.godot`, input map, autoloads, build targets, scene routing, physics layers, or resource paths?
 4. Did it manually edit `.tscn`, `.tres`, or `.res` safely?
-5. Did it expand `GameManager`, connect enemy into the main level, or rename legacy `player.cs` without explicit reason?
+5. Did it expand `GameManager`, level unlock save data, level scenes, weapon architecture, or rename legacy `player.cs` without explicit reason?
 6. Did it add architecture that was not requested?
 7. Was verification honest and sufficient for this environment?
 

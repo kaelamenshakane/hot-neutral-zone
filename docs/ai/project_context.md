@@ -17,19 +17,31 @@ It should change rarely.
 - Autoload: `GameManager`
 - Input map:
   - movement: WASD
-  - attack: left mouse
+  - attack / punch / shoot: left mouse
+  - pickup / throw weapon: right mouse
+  - finish enemy: Space
+  - look ahead: Shift
+  - lock-on target: middle mouse
   - restart: R
+  - pause / menu: Esc
 
 ## Current implemented shape
 - Main menu exists with animated title and buttons.
-- Main menu starts `res://Scenes/main_level.tscn`.
-- `main_level.tscn` currently instantiates only `player.tscn`.
-- Player currently has movement, mouse-facing aim pivot, melee hitbox, hurtbox, and restart.
-- Enemy scene exists with patrol/search/chase/attack behavior, but is not placed in `main_level.tscn`.
+- Main menu starts a new campaign through `GameManager.StartNewGame()`.
+- Continue opens a runtime level-select menu.
+- Debug reset in the menu clears the persistent level-unlock save.
+- Level unlock progress is saved to `user://save.json`.
+- There are currently 3 level scenes: `res://Scenes/level_1.tscn`, `res://Scenes/level_2.tscn`, and `res://Scenes/level_3.tscn`.
+- Each level scene currently contains one player and one enemy.
+- Player currently has movement, mouse-facing aim pivot, melee hitbox, hurtbox, restart, weapon pickup/drop, bat melee attack, and pistol projectile attack.
+- `res://Scenes/level_1.tscn` currently contains bat and pistol pickups.
+- Enemy scene exists with patrol/search/chase/attack behavior and basic collision/hurtbox/attack shapes.
+- Enemy visual currently reuses the player sprite with a red outline.
 - Hitbox/Hurtbox model is minimal:
   - enemy dies via `QueueFree`
   - player hit reloads scene
-- `GameManager` currently only reloads the current scene.
+- Level victory currently means killing the single enemy in the level.
+- `GameManager` owns level loading, level unlock progress, save reset, and current-scene reload.
 
 ## Explicitly undecided areas
 Do not invent architecture for these unless explicitly asked:
@@ -37,8 +49,12 @@ Do not invent architecture for these unless explicitly asked:
 - level architecture
 - enemy taxonomy
 - weapon taxonomy
+- downed enemy / finish enemy behavior
+- look-ahead camera behavior
+- lock-on targeting behavior
+- pause/menu behavior
 - progression
-- save/load
+- save/load beyond level unlock progress
 - meta-game
 - content pipeline
 - automated test framework

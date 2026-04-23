@@ -1,25 +1,51 @@
-[gd_scene format=3 uid="uid://2d4yo18sgw0j"]
+[gd_scene load_steps=7 format=3 uid="uid://2d4yo18sgw0j"]
 
 [ext_resource type="Script" uid="uid://5mcwncbn1jaa" path="res://Scripts/EnemyAI.cs" id="1_hghv2"]
+[ext_resource type="Texture2D" uid="uid://dq8a7emtvekh3" path="res://player.png" id="2_player"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_vision"]
+radius = 360.0
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_hurtbox"]
+size = Vector2(48, 48)
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_attack"]
+radius = 44.0
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_body"]
+size = Vector2(36, 36)
 
 [node name="Enemy" type="CharacterBody2D" unique_id=1978998121]
 script = ExtResource("1_hghv2")
 
+[node name="RedOutline" type="Sprite2D" parent="."]
+z_index = -1
+modulate = Color(1, 0, 0, 1)
+rotation = -1.5707964
+scale = Vector2(1.28, 1.28)
+texture = ExtResource("2_player")
+
 [node name="Sprite2D" type="Sprite2D" parent="." unique_id=562455331]
+rotation = -1.5707964
+texture = ExtResource("2_player")
 
 [node name="VisionArea" type="Area2D" parent="." unique_id=27074403]
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="VisionArea" unique_id=1731443811]
+shape = SubResource("CircleShape2D_vision")
 
 [node name="Hurtbox" type="Area2D" parent="." unique_id=681372479]
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Hurtbox" unique_id=499539474]
+shape = SubResource("RectangleShape2D_hurtbox")
 
 [node name="AttackArea" type="Area2D" parent="." unique_id=971034243]
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="AttackArea" unique_id=406535919]
+shape = SubResource("CircleShape2D_attack")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=1557135933]
+shape = SubResource("RectangleShape2D_body")
 
 [node name="PatrolPoints" type="Node2D" parent="." unique_id=1179825851]
 

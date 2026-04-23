@@ -40,10 +40,15 @@ layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
+offset_left = 61.000008
+offset_top = -42.000004
+offset_right = 357.0
+offset_bottom = 396.0
 grow_horizontal = 2
 grow_vertical = 2
-texture = ExtResource("2_48xlc")
+scale = Vector2(0.7166154, 0.7166154)
 mouse_filter = 2
+texture = ExtResource("2_48xlc")
 
 [node name="Label" type="Label" parent="." unique_id=256453579]
 layout_mode = 1
@@ -54,20 +59,20 @@ offset_bottom = 148.0
 grow_horizontal = 2
 theme_override_colors/font_color = Color(0.09, 0.06, 0.06, 1)
 theme_override_colors/font_outline_color = Color(0.85, 0.1, 0.2, 1)
+theme_override_constants/outline_size = 2
 theme_override_fonts/font = SubResource("SystemFont_hotline_menu")
 theme_override_font_sizes/font_size = 92
-theme_override_constants/outline_size = 2
 text = "HOT NEUTRAL ZONE"
 horizontal_alignment = 1
 vertical_alignment = 1
-mouse_filter = 2
 
 [node name="NewGame" type="Button" parent="." unique_id=1876659958]
 layout_mode = 0
-offset_left = 431.0
-offset_top = 398.0
-offset_right = 581.0
-offset_bottom = 478.0
+offset_left = 457.0
+offset_top = 385.0
+offset_right = 607.0
+offset_bottom = 465.0
+scale = Vector2(0.82550335, 0.82550335)
 theme_override_colors/font_color = Color(0, 0, 0, 1)
 theme_override_colors/font_pressed_color = Color(0, 0, 0, 1)
 theme_override_colors/font_hover_color = Color(0, 0, 0, 1)
@@ -84,10 +89,11 @@ text = "Новая игра"
 [node name="ContinueGame" type="Button" parent="." unique_id=875018086]
 custom_minimum_size = Vector2(-0.41, 0)
 layout_mode = 0
-offset_left = 624.0
-offset_top = 398.0
-offset_right = 774.0
-offset_bottom = 478.0
+offset_left = 591.0
+offset_top = 388.0
+offset_right = 741.0
+offset_bottom = 468.0
+scale = Vector2(0.7563648, 0.7563648)
 theme_override_colors/font_color = Color(0, 0, 0, 1)
 theme_override_colors/font_pressed_color = Color(0, 0, 0, 1)
 theme_override_colors/font_hover_color = Color(0, 0, 0, 1)
@@ -103,10 +109,11 @@ text = "Продолжить"
 
 [node name="Exit" type="Button" parent="." unique_id=200409014]
 layout_mode = 0
-offset_left = 611.0
-offset_top = 489.0
-offset_right = 761.0
-offset_bottom = 569.0
+offset_left = 577.0
+offset_top = 451.99997
+offset_right = 727.0
+offset_bottom = 532.0
+scale = Vector2(0.70455706, 0.70455706)
 theme_override_colors/font_color = Color(0, 0, 0, 1)
 theme_override_colors/font_pressed_color = Color(0, 0, 0, 1)
 theme_override_colors/font_hover_color = Color(0, 0, 0, 1)

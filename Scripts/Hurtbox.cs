@@ -2,6 +2,8 @@ using Godot;
 
 public partial class Hurtbox : Area2D
 {
+    [Signal] public delegate void KilledEventHandler(Node killedNode);
+
     [Export] public bool IsPlayer = false;
     private bool _dead;
 
@@ -18,7 +20,9 @@ public partial class Hurtbox : Area2D
         }
         else
         {
-            GetParent()?.QueueFree();
+            Node parent = GetParent();
+            EmitSignal(SignalName.Killed, parent);
+            parent?.QueueFree();
         }
     }
 }

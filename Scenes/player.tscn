@@ -1,4 +1,4 @@
-[gd_scene format=3 uid="uid://bf0w34c8qjki2"]
+[gd_scene load_steps=7 format=3 uid="uid://bf0w34c8qjki2"]
 
 [ext_resource type="Texture2D" uid="uid://dq8a7emtvekh3" path="res://player.png" id="1_4flbx"]
 [ext_resource type="Script" uid="uid://cgjjgcr5h4v1v" path="res://Scripts/PlayerController.cs" id="1_onrkg"]
@@ -10,6 +10,9 @@
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_onrkg"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_4flbx"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_pickup"]
+radius = 72.0
 
 [node name="Player" type="CharacterBody2D" unique_id=1141055774]
 script = ExtResource("1_onrkg")
@@ -27,6 +30,11 @@ script = ExtResource("3_hqtel")
 scale = Vector2(3.0799994, 3.8400018)
 shape = SubResource("CapsuleShape2D_vgqql")
 
+[node name="HeldWeaponVisual" type="Polygon2D" parent="AimPivot"]
+visible = false
+color = Color(0.48, 0.24, 0.08, 1)
+polygon = PackedVector2Array(10, -5, 58, -5, 66, 0, 58, 5, 10, 5)
+
 [node name="Hurtbox" type="Area2D" parent="." unique_id=1894195126]
 script = ExtResource("3_i3pqv")
 IsPlayer = true
@@ -36,3 +44,8 @@ shape = SubResource("RectangleShape2D_onrkg")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=81351858]
 shape = SubResource("RectangleShape2D_4flbx")
+
+[node name="PickupArea" type="Area2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="PickupArea"]
+shape = SubResource("CircleShape2D_pickup")

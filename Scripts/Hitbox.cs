@@ -9,30 +9,39 @@ public partial class Hitbox : Area2D
     private bool _active;
     private bool _canAttack = true;
     private Node _ownerRoot;
+    private Vector2 _defaultScale;
 
     public override void _Ready()
     {
         _ownerRoot = GetParent()?.GetParent();
+        _defaultScale = Scale;
         Monitoring = false;
         AreaEntered += OnAreaEntered;
     }
 
-    public async void Activate()
+    public void Activate()
+    {
+        Activate(ActiveTime, Cooldown, 1.0f);
+    }
+
+    public async void Activate(float activeTime, float cooldown, float scaleMultiplier)
     {
         if (!_canAttack) return;
 
         _canAttack = false;
         _active = true;
+        Scale = _defaultScale * scaleMultiplier;
         Monitoring = true;
 
         await ToSignal(GetTree(), "physics_frame");
         ApplyOverlaps();
 
-        await ToSignal(GetTree().CreateTimer(ActiveTime), "timeout");
+        await ToSignal(GetTree().CreateTimer(activeTime), "timeout");
         Monitoring = false;
         _active = false;
+        Scale = _defaultScale;
 
-        await ToSignal(GetTree().CreateTimer(Cooldown), "timeout");
+        await ToSignal(GetTree().CreateTimer(cooldown), "timeout");
         _canAttack = true;
     }
 
@@ -59,4 +68,3 @@ public partial class Hitbox : Area2D
         }
     }
 }
-

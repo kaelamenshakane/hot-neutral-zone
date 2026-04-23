@@ -17,7 +17,7 @@ $patterns = @(
     "SCRIPT ERROR",
     "Exception",
     "Unhandled",
-    "Condition \""
+    'Condition "'
 )
 
 $regex = ($patterns -join "|")
@@ -28,5 +28,5 @@ if (-not $hits) {
     exit 0
 }
 
-Write-Host "Error-like lines from $LogFile:"
+Write-Host "Error-like lines from ${LogFile}:"
 $hits | ForEach-Object { $_.Line }
